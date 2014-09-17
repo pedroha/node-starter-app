@@ -11,7 +11,7 @@ exports.getUsers = function(req, res) {
     } else {
       req.query.perpage = req.query.perpage ? req.query.perpage : Infinity;
       req.query.page = req.query.page ? req.query.page : 1;
-      first = req.query.perpage * (req.query.page - 1);
+      var first = req.query.perpage * (req.query.page - 1);
       first = isNaN(first) ? 0 : first;
       first = first >= users.length ? 
             (users.length - req.query.perpage <= 0 ? 
@@ -25,8 +25,6 @@ exports.getUsers = function(req, res) {
 // POST - add new user
 exports.postUsers = passport.authenticate('local-signup', function(req, res) {
   var user;
-  console.log('POST: ');
-  console.log(req.body);
   user = new User({
     "email": req.body.email,
     "password": req.body.password
