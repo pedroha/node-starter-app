@@ -11,6 +11,7 @@
     "body-parser": "1.0.2",
     "bcrypt-nodejs": "latest",
     "cookie-parser": "^1.1.1",
+    "compression": "1.0.2",
     "connect-flash": "~0.1.1",
     "connect-mongo": "^0.4.1",
     "ejs": ">=0.8.5",
