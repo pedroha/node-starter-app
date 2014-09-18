@@ -21,7 +21,10 @@ var MongoStore = require('connect-mongo')(session);
 
 //set up mongodb connection and setup passport configuration
 mongoose.connect(settings.secrets.db);
-require('lib/auth/passport')(passport);
+mongoose.connection.on('error', function() {
+  console.error('MongoDB connection error. Make sure MongoDB is running.');
+});
+require('./auth/passport')(passport);
 
 //exported configurations
 var config = {

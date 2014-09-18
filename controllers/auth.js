@@ -4,21 +4,25 @@
 var configs = require('config/configs');
 var passport = configs.passport;
 
-exports.facebookAuth = passport.authenticate('facebook', { scope: 'email' });
+exports.checkLoggedIn = function(req, res, next) {
+  req.user ? next() : res.redirect('/login');
+}
+
+exports.facebookAuth = passport.authenticate('facebook', {scope: 'email'});
 exports.facebookAuthCallback = passport.authenticate('facebook', { 
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/' 
 });
 
-exports.googleAuth = passport.authenticate('google');
+exports.googleAuth = passport.authenticate('google', {scope: 'profile email'});
 exports.googleAuthCallback = passport.authenticate('google', { 
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/' 
 });
 
-exports.twitterAuth = passport.authenticate('twitter');
+exports.twitterAuth = passport.authenticate('twitter', {scope: 'email' });
 exports.twitterAuthCallback = passport.authenticate('twitter', { 
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/' 
 });
 
@@ -33,3 +37,8 @@ exports.localLogin = passport.authenticate('local-login', {
   failureRedirect: '/login',
   failureFlash: true
 });
+
+exports.logout = function(req, res) {
+  req.logout();
+  res.redirect('/');
+}

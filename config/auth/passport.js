@@ -9,7 +9,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var configAuth = require('config/settings/auth');
 
 //load up the user model
-var User = require('models/user');
+var User = require('models/User');
 
 function localLoginVerifyCallback(req, email, password, done) {
   process.nextTick(function() {
@@ -55,7 +55,7 @@ function localSignupVerifyCallback(req, email, password, done) {
   };
 
   process.nextTick(function() {
-    // check if the user is already logged ina
+    // check if the user is already logged in
     if (!req.user) {
       User.findOne({'local.email':  email}, findUserCallback);
     } else {
