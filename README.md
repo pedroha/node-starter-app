@@ -53,7 +53,7 @@ to obtain appropriate credentials from each provider.
 - Select **Website**
 - Enter `http://localhost:3000` for *Site URL*
 
-<img src="https://g.twimg.com/Twitter_logo_blue.png" width="100">
+<img src="https://g.twimg.com/Twitter_logo_blue.png" width="50">
 - Sign in at [https://dev.twitter.com](https://dev.twitter.com/)
 - From the profile picture dropdown menu select **My Applications**
 - Click **Create a new application**
@@ -70,7 +70,7 @@ Project Structure
 
 | Name                               | Description                                                 |
 | ---------------------------------- |:-----------------------------------------------------------:|
-| **config**/auth/passport.js        | Passport Local and OAuth strategies                         |
+| **config**/auth/passport.js        | Passport local and OAuth strategies                         |
 | **config**/settings/auth.js        | Your API keys                                               |
 | **config**/settings/secrets.js     | Database url and other settings                             |
 | **config**/settings/exports.js     | Exports all files inside settings folder                    |
@@ -79,6 +79,11 @@ Project Structure
 | **controllers**/error.js           | Controller for handling errors                              |
 | **controllers**/pages.js           | Controller for serving pages                                |
 | **models**/User.js                 | Mongoose schema and model for User                          |
+| **lib**/                           | User-created libraries to be included in controllers        |
 | **public**/                        | Static assets such as fonts, css, js,img                    |
+| **test**/                          | Mocha and Chai tests                                        |
 | **views**/                         | Templates for *login, signup, profile*                      |
 | app.js                             | Main application file where all routes are loaded           |
+
+
+TODO: delete or set up mail
