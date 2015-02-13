@@ -1,8 +1,8 @@
 var secrets = require('./secrets');
 
 module.exports = {
-  service: "SendGrid",
-  host: "smtp.sendgrid.net",
+  service: 'SendGrid',
+  host: 'smtp.sendgrid.net',
   port: 587,
   secureConnection: false,
   auth: {

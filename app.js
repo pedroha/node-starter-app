@@ -1,33 +1,38 @@
-var express = require('express'),
-    morgan = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    expressSession = require('express-session'),
-    app = express(),
-    secrets = require('./config/secrets.js'),
-    port = secrets.port,
-    http = require('http'),
-    mongoose = require('mongoose'),
-    path = require('path'),
-    passport = require('passport'),
-    flash = require('connect-flash');
+//file used to load other routes
+'use strict';
+(require('rootpath')());
 
-mongoose.connect(secrets.db);
+var express = require('express');
+var app = module.exports = express();
+var configs = require('config/configs');
+configs.configure(app);
 
-require('./lib/passport')(passport);
+var staticPages = require('controllers/pages');
+app.get('/', staticPages.renderIndex);
+app.get('/login', staticPages.renderLogin);
+app.get('/signup', staticPages.renderSignup);
 
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(bodyParser());
-app.use(expressSession({ secret: secrets.sessionSecret }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.set('view engine', 'ejs');
-app.use(flash());
+var auth = require('controllers/auth');
+app.post('/login', auth.localLogin);
+app.get('/logout', auth.logout);
+app.post('/signup', auth.localSignup);
+app.get('/auth/facebook', auth.facebookAuth);
+app.get('/auth/facebook/callback', auth.facebookAuthCallback);
+app.get('/auth/google', auth.googleAuth);
+app.get('/auth/google/callback', auth.googleAuthCallback);
+app.get('/auth/twitter', auth.twitterAuth);
+app.get('/auth/twitter/callback', auth.twitterAuthCallback);
 
-require('./app/routes/api')(app, passport);
-require('./app/routes/client')(app, passport);
-//require('./app/routes/oAuth')(app, passport);
+app.all('*', auth.checkLoggedIn);
+app.get('/profile', staticPages.renderProfile);
 
-app.listen(port);
-console.log('listening on port ' + port);
+app.get('*', staticPages.serve404);
+
+/**
+ * handles the errors when next(err) is called
+ */
+var errorHandler = require('controllers/errorHandler').errorHandler;
+app.use(errorHandler);
+
+app.listen(configs.settings.secrets.port);
+console.log('listening on port ' + configs.settings.secrets.port);
